@@ -35,6 +35,13 @@ import { RouterLink, RouterView } from 'vue-router';
               <i class="fas fa-envelope mr-3"></i>
               <span>Contact</span>
             </RouterLink>
+            <RouterLink
+              to="/counter"
+              class="flex items-center px-4 py-3 rounded-lg hover:bg-gray-700 transition duration-200"
+            >
+              <i class="fas fa-calculator mr-3"></i>
+              <span>Counter</span>
+            </RouterLink>
           </nav>
         </div>
 
