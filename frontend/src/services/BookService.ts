@@ -15,4 +15,11 @@ export class BookService {
     const id = useBookStore().books.length + 1;
     useBookStore().books.push({ id, ...book });
   }
+
+  static deleteBook(id: number): void {
+    const index = useBookStore().books.findIndex((book) => book.id === id);
+    if (index !== -1) {
+      useBookStore().books.splice(index, 1);
+    }
+  }
 }
