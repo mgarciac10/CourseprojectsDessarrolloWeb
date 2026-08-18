@@ -61,7 +61,7 @@ const books = BookService.getBooks();
               >
                 More info <i class="fas fa-info-circle"></i>
               </RouterLink>
-              <button 
+              <button
                 class="inline-block bg-gray-600 text-white font-semibold px-5 py-2 rounded hover:bg-gray-700 transition"
                 @click="BookService.deleteBook(book.id)"
               >

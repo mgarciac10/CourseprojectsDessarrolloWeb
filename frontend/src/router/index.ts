@@ -16,7 +16,12 @@ const router = createRouter({
     { path: '/counter', name: 'counter', component: CounterView, meta: { title: 'Counter' } },
     { path: '/books', name: 'books', component: BooksIndexView, meta: { title: 'Books' } },
     { path: '/books/:id', name: 'book', component: BooksShowView, meta: { title: 'Book' } },
-    { path: '/books/create', name: 'book-create', component: BooksCreateView, meta: { title: 'Create Book' } },
+    {
+      path: '/books/create',
+      name: 'book-create',
+      component: BooksCreateView,
+      meta: { title: 'Create Book' },
+    },
   ],
 });
 
