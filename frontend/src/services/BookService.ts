@@ -22,4 +22,10 @@ export class BookService {
       useBookStore().books.splice(index, 1);
     }
   }
+
+  static getUniqueBookCategories(): string[] {
+    const categories = useBookStore().books.map((book) => book.category);
+    const uniqueCategories = new Set(categories);
+    return Array.from(uniqueCategories);
+  }
 }

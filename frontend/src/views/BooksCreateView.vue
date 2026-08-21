@@ -10,6 +10,10 @@ const stock = ref(0);
 const successMessage = ref('');
 
 function submitForm() {
+  const trimmedTitle = title.value.trim();
+  const trimmedCategory = category.value.trim();
+  if (!trimmedTitle || !trimmedCategory) return;
+
   const newBook: CreateBookDTO = {
     title: title.value,
     category: category.value,
@@ -85,7 +89,8 @@ function submitForm() {
       <div class="pt-4">
         <button
           type="submit"
-          class="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition"
+          class="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          :disabled="!title.trim() || !category.trim()"
         >
           Create Book
         </button>
