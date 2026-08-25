@@ -1,8 +1,11 @@
 <script setup lang="ts">
+// external imports
 import { computed, ref } from 'vue';
+
+// internal imports
 import { ReviewService } from '@/services/ReviewService.js';
-import { formatDate } from '@/utils/utils.js';
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO.js';
+import Formatter from '@/utils/Formatter.js';
 
 const props = defineProps<{
   bookId: number;
@@ -14,23 +17,31 @@ const rating = ref(5);
 const comment = ref('');
 const author = ref('');
 
+const form = ref({
+  rating: 5,
+  comment: '',
+  author: '',
+})
+
 function submitReview() {
-  const trimmedComment = comment.value.trim();
-  const trimmedAuthor = author.value.trim();
+  const trimmedComment = form.value.comment.trim();
+  const trimmedAuthor = form.value.author.trim();
   if (!trimmedComment || !trimmedAuthor) return;
 
   const newReview: CreateReviewDTO = {
     bookId: props.bookId,
-    rating: rating.value,
+    rating: form.value.rating,
     comment: trimmedComment,
-    author: author.value.trim() || undefined,
+    author: form.value.author.trim() || undefined,
   };
 
   ReviewService.createReview(newReview);
 
-  rating.value = 5;
-  comment.value = '';
-  author.value = '';
+  form.value = {
+    rating: 5,
+    comment: '',
+    author: '',
+  };
 }
 </script>
 
@@ -99,7 +110,7 @@ function submitReview() {
         </div>
         <p class="text-gray-600 text-sm whitespace-pre-wrap">{{ review.comment }}</p>
         <p v-if="review.createdAt" class="text-gray-400 text-xs mt-2">
-          {{ formatDate(review.createdAt) }}
+          {{ Formatter.formatDate(review.createdAt) }}
         </p>
       </li>
       <li v-if="reviews.length === 0" class="text-gray-500 text-sm py-4">

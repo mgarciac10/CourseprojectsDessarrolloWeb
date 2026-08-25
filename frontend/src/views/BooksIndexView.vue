@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { BookService } from '@/services/BookService';
+// external imports
 import { ref, watch } from 'vue';
-import { formatToCOP } from '@/utils/utils';
 
+// internal imports
+import { BookService } from '@/services/BookService';
+import Formatter from '@/utils/Formatter';
+
+// variables
 const books = BookService.getBooks();
+
+// reactive variables
 const filteredBooks = ref(books);
 
 // selectors
@@ -75,7 +81,7 @@ watch(selectedCategory, (newCategory) => {
             <div class="bg-gray-50 rounded-lg p-3 mb-4">
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600">Price:</span>
-                <span class="font-semibold">${{ formatToCOP(book.price) }} COP</span>
+                <span class="font-semibold">${{ Formatter.formatToCOP(book.price) }} COP</span>
               </div>
             </div>
 
