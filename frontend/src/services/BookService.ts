@@ -1,31 +1,22 @@
 import type { BookInterface } from '@/interfaces/BookInterface';
-import { useBookStore } from '@/stores/bookstore.js';
 import type { CreateBookDTO } from '@/dtos/CreateBookDTO.js';
+import axios from 'axios';
 
 export class BookService {
-  static getBooks(): BookInterface[] {
-    return useBookStore().books;
+  private static readonly API_URL = 'http://localhost:3000/api/books';
+
+  public static async getBooks(): Promise<BookInterface[]> {
+    const { data } = await axios.get(this.API_URL);
+    return data;
   }
 
-  static getBookById(id: number): BookInterface | undefined {
-    return useBookStore().books.find((book) => book.id === id);
+  public static async getBookById(id: number): Promise<BookInterface> {
+    const { data } = await axios.get(`${this.API_URL}/${id}`);
+    return data;
   }
 
-  static createBook(book: CreateBookDTO): void {
-    const id = useBookStore().books.length + 1;
-    useBookStore().books.push({ id, ...book });
-  }
-
-  static deleteBook(id: number): void {
-    const index = useBookStore().books.findIndex((book) => book.id === id);
-    if (index !== -1) {
-      useBookStore().books.splice(index, 1);
-    }
-  }
-
-  static getUniqueBookCategories(): string[] {
-    const categories = useBookStore().books.map((book) => book.category);
-    const uniqueCategories = new Set(categories);
-    return Array.from(uniqueCategories);
+  public static async createBook(book: CreateBookDTO): Promise<BookInterface> {
+    const { data } = await axios.post(this.API_URL, book);
+    return data;
   }
 }

@@ -9,7 +9,7 @@ const price = ref(0);
 const stock = ref(0);
 const successMessage = ref('');
 
-function submitForm() {
+async function submitForm() {
   const trimmedTitle = title.value.trim();
   const trimmedCategory = category.value.trim();
   if (!trimmedTitle || !trimmedCategory) return;
@@ -21,12 +21,16 @@ function submitForm() {
     stock: stock.value,
   };
 
-  BookService.createBook(newBook);
-  successMessage.value = 'Book created successfully!';
-  title.value = '';
-  category.value = '';
-  price.value = 0;
-  stock.value = 0;
+  try {
+    await BookService.createBook(newBook);
+    successMessage.value = 'Book created successfully!';
+    title.value = '';
+    category.value = '';
+    price.value = 0;
+    stock.value = 0;
+  } catch (error) {
+    console.error('Error creating book:', error);
+  }
 }
 </script>
 

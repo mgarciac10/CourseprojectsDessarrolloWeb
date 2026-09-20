@@ -1,15 +1,21 @@
 <script setup lang="ts">
 // external imports
 import { useRoute } from 'vue-router';
+import type { BookInterface } from '@/interfaces/BookInterface.js';
+import { onMounted, ref } from 'vue';
 
 // internal imports
 import { BookService } from '@/services/BookService';
 import BookReviewsComponent from '@/components/BookReviewsComponent.vue';
 import Formatter from '@/utils/Formatter';
 
-const route = useRoute();
-const bookId = Number(route.params.id);
-const book = BookService.getBookById(bookId);
+const book = ref<BookInterface | null>(null);
+
+onMounted(async () => {
+  const route = useRoute();
+  const bookId = Number(route.params.id);
+  book.value = await BookService.getBookById(bookId);
+});
 </script>
 
 <template>
@@ -69,7 +75,7 @@ const book = BookService.getBookById(bookId);
             </div>
           </div>
           <div class="bg-white rounded-lg shadow-md p-6 mt-8">
-            <BookReviews :book-id="book.id" />
+            <BookReviewsComponent :book-id="book.id" />
           </div>
         </div>
       </div>
